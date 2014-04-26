@@ -1,5 +1,5 @@
 #trinket
-an adafruit trinket project
+an adafruit trinket project to interface with sensors using buspirate for prototyping
 
 ##setup
 list of parts and documentation
@@ -24,7 +24,7 @@ list of parts and documentation
 * [pyBusPirateLite](http://dangerousprototypes.com/docs/Bus_Pirate_Scripting_in_Python)
 
 ###getting started
-install your tools:
+install your tools
 ```
 sudo apt-get install minicom avrdude avr-gcc
 ```
