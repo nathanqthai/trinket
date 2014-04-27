@@ -1,0 +1,9 @@
+clean::
+	rm -f *.[oad]
+
+%.d:%.c
+	$(MAKEDEP) $< >$@
+
+ifneq ($(MAKECMDGOALS),clean)
+include $(SRC:.c=.d) # always include dependency files for all .c files
+endif

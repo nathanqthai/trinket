@@ -12,6 +12,7 @@ list of parts and documentation
    * [LSM303 triple axis accelerometer+magnetometer](http://www.adafruit.com/products/1120)
    * [BMP180 barometer+thermometer+altimeter](http://www.adafruit.com/products/1603)
 * [bus pirate probe set](https://www.adafruit.com/products/238)
+* [avrisp mkii programmer](http://www.atmel.com/tools/avrispmkii.aspx)
 * [6ft usb mini-b cable](https://www.sparkfun.com/products/11301)
 * [mini breadboard](https://www.sparkfun.com/products/12044)
 * [6' female/male jumpers](https://www.adafruit.com/products/826)
@@ -29,12 +30,14 @@ install your tools
 sudo apt-get install minicom avrdude avr-gcc
 ```
 
-set the udev rules for buspirate and trinket
+set the udev rules for buspirate, trinket, and avrisp mkii
 ```
 sudo echo 'SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6001", GROUP="dialout", MODE="0660", SYMLINK+="buspirate"' | sudo tee /etc/udev/rules.d/47-buspirate.rules
 sudo echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="1781", ATTRS{idProduct}=="0c9f", MODE="0660", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/47-usbtiny.rules
 sudo echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="05df", MODE="0660", GROUP="plugdev"' | sudo tee -a /etc/udev/rules.d/47-usbtiny.rules
 sudo echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="05dc", MODE="0660", GROUP="plugdev"' | sudo tee -a /etc/udev/rules.d/47-usbtiny.rules
+sudo echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2104", MODE="0660", GROUP="dialout"
+' | sudo tee /etc/udev/rules.d/47-avrisp.rules
 ```
 
 buspirate is a modem so we must be part of the dialout group

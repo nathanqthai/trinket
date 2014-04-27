@@ -26,13 +26,13 @@
 *                     couse of the failure.
 *
 ****************************************************************************/
-#include<avr/io.h>
+#include <avr/io.h>
 //********** Defines **********//
 
 // Defines controlling timing limits
-#define TWI_FAST_MODE
+//#define TWI_FAST_MODE
 
-#define SYS_CLK   4000.0  // [kHz]
+#define SYS_CLK   8000.0  // [kHz]
 
 #ifdef TWI_FAST_MODE               // TWI FAST mode timing limits. SCL = 100-400kHz
   #define T2_TWI    ((SYS_CLK *1300) /1000000) +1 // >1,3us

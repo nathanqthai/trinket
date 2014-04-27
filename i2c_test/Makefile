@@ -1,42 +1,36 @@
-PROG=main
+include make.vars
 
-# compile parameters
-CC=avr-gcc
-F_CPU=8000000UL # 8Mhz
-MCU=attiny85
-CFLAGS=-Wall -Os -DF_CPU=$(F_CPU) -mmcu=$(MCU)
+#ISP=avrdude -c avrispmkII -p $(MCU) -P usb
+ISP=avrdude -c usbtiny -p $(MCU) -P usb
 
-# object creation paramters
-OBJCOPY=avr-objcopy
-BIN_FORMAT=ihex
+CFLAGS+=-I.
 
-# flashing parameters
-AVRDUDE=avrdude
-PROTOCOL=usbtiny
-PART=attiny85
-PORT=usb
+TARGET=main
+SRC=main.c
 
-RM=rm -f
+all: $(TARGET).hex
 
-.SUFFIXES: .elf .hex
+program : $(TARGET).hex
+	$(ISP) -e -U flash:w:$(TARGET).hex
+#program : $(TARGET).hex
+#	$(ISP) -e -U flash:w:$(TARGET).hex -U lfuse:w:0xF1:m -U hfuse:w:0xD5:m -U efuse:w:0xFE:m
 
-.c.elf:
-	$(CC) $(CFLAGS) -o $@ $^ -I.
+getfuse:
+	$(ISP) -U hfuse:r:fuse-h.txt:b -U lfuse:r:fuse-l.txt:b \
+         -U efuse:r:fuse-e.txt:b
 
-.elf.hex:
-	$(OBJCOPY) -O $(BIN_FORMAT) -R .eeprom $< $@
+$(TARGET).elf: $(SRC:.c=.o) USI_TWI_Master/USI_TWI_Master.a
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
 
-.PHONY: all
-all: ${PROG}.hex
+USI_TWI_Master/USI_TWI_Master.a: USI_TWI_Master/*.[ch]
+	make -C USI_TWI_Master
 
-${PROG}.hex: ${PROG}.elf
+%.hex : %.elf
+	avr-objcopy -R .eeprom -O ihex $< $@
+	avr-size $@
 
-${PROG}.elf: ${PROG}.c USI_TWI_Master.c
+include make.rules
 
-.PHONY: clean
-clean:
-	$(RM) ${PROG}.elf ${PROG}.hex
-
-.PHONY: upload
-upload: ${PROG}.hex
-	$(AVRDUDE) -c $(PROTOCOL) -p $(PART) -P $(PORT) -U flash:w:${PROG}.hex
+clean::
+	rm -f *.hex *.elf fuse-*.txt $(TARGET)
+	make -C USI_TWI_Master clean
