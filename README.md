@@ -36,8 +36,7 @@ sudo echo 'SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6001", 
 sudo echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="1781", ATTRS{idProduct}=="0c9f", MODE="0660", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/47-usbtiny.rules
 sudo echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="05df", MODE="0660", GROUP="plugdev"' | sudo tee -a /etc/udev/rules.d/47-usbtiny.rules
 sudo echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="05dc", MODE="0660", GROUP="plugdev"' | sudo tee -a /etc/udev/rules.d/47-usbtiny.rules
-sudo echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2104", MODE="0660", GROUP="dialout"
-' | sudo tee /etc/udev/rules.d/47-avrisp.rules
+sudo echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2104", MODE="0660", GROUP="dialout"' | sudo tee /etc/udev/rules.d/47-avrisp.rules
 ```
 
 buspirate is a modem so we must be part of the dialout group
